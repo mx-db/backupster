@@ -40,12 +40,12 @@ jobs:
 
       - name: Debug
         run: pwd && ls -la
-        
+
       - name: Build Docker Container
         id: push
         uses: docker/build-push-action@v6
         with:
-          context: .
+          file: ./docker/Dockerfile
           platforms: linux/${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels}}
           tags: ${{ steps.meta.outputs.tags }}
