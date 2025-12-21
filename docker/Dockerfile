@@ -19,7 +19,9 @@ RUN if [ ${TARGETARCH} = "amd64" ]; then \
     && cd clients \
     && npm ci \
     && cd apps/cli \
-    && npm run "dist:oss:lin${npmscript}" ; 
+    && npm run "dist:oss:lin${npmscript}" ;
+
+RUN mkdir build_output && cp -r clients/apps/cli/dist/oss/linux${npmscript} build_output/
 
 
 FROM python:3.12
@@ -38,7 +40,7 @@ RUN pip install pipx && pipx ensurepath
 RUN pipx install vdirsyncer
 
 # Install bitwarden cli using the prebuilt binary
-COPY --from=build_bw /usr/src/bw/clients/apps/cli/dist/oss/linux-${TARGETARCH}/bw /usr/local/bin/bw
+COPY --from=build_bw /usr/src/bw/build_output/bw /usr/local/bin/bw
 
 WORKDIR /usr/src/app
 
