@@ -1,0 +1,12 @@
+{
+    "files": [
+        {
+            "name": "file1.txt",
+            "content": "This is the content of file1."
+        },
+        {
+            "name": "file2.txt",
+            "content": "This is the content of file2."
+        }
+    ]
+}

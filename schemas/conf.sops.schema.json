@@ -1,0 +1,52 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "type": {
+            "type": "string",
+            "enum": [
+                "gcp"
+            ]
+        },
+        "secret_path": {
+            "type": "string"
+        },
+        "conf": {
+            "type": "object"
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "type": {
+                        "const": "gcp"
+                    }
+                },
+                "required": [
+                    "type"
+                ]
+            },
+            "then": {
+                "properties": {
+                    "conf": {
+                        "type": "object",
+                        "required": [
+                            "gcp_kms_id",
+                            "gcp_svc_key"
+                        ],
+                        "properties": {
+                            "gcp_kms_id": {
+                                "type": "string"
+                            },
+                            "gcp_svc_key": {
+                                "type": "string"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+cryptography
+python-gnupg
+pyyaml
+sopsy
+
+#### Sources ####
+# Vaultwarden
+pykeepass
+
+#### Destinations ####
+# GCP
+google-cloud-storage
+
+# AWS

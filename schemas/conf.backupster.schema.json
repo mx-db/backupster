@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "src",
+    "dst",
+    "gpg"
+  ],
+  "properties": {
+    "src": {
+      "type": "object",
+      "required": [
+        "type",
+        "conf"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "dav|vaultwarden|test|ENC\\[.*\\]"
+        },
+        "conf": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "dav"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "conf": {
+                "type": "object",
+                "required": [
+                  "carddav_url",
+                  "carddav_username",
+                  "carddav_password",
+                  "caldav_url",
+                  "caldav_username",
+                  "caldav_password"
+                ],
+                "properties": {
+                  "carddav_url": {
+                    "type": "string"
+                  },
+                  "carddav_username": {
+                    "type": "string"
+                  },
+                  "carddav_password": {
+                    "type": "string"
+                  },
+                  "caldav_url": {
+                    "type": "string"
+                  },
+                  "caldav_username": {
+                    "type": "string"
+                  },
+                  "caldav_password": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "vaultwarden"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "conf": {
+                "type": "object",
+                "required": [
+                  "vw_url",
+                  "vw_client_id",
+                  "vw_client_secret",
+                  "vw_password"
+                ],
+                "properties": {
+                  "vw_url": {
+                    "type": "string"
+                  },
+                  "vw_client_id": {
+                    "type": "string"
+                  },
+                  "vw_client_secret": {
+                    "type": "string"
+                  },
+                  "vw_password": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dst": {
+      "type": "object",
+      "required": [
+        "type",
+        "conf"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "gcp|ENC\\[.*\\]"
+        },
+        "conf": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "gcp"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "conf": {
+                "type": "object",
+                "required": [
+                  "gcp_bucket_name",
+                  "gcp_svc_key"
+                ],
+                "properties": {
+                  "gcp_bucket_name": {
+                    "type": "string"
+                  },
+                  "gcp_svc_key": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "gpg": {
+      "type": "string"
+    },
+    "sops": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

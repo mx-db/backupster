@@ -1,0 +1,10 @@
+services:
+  # Vdirsyncer - sync calendars and addressbooks between servers and the local filesystem. DOCKERIZED!
+  # https://hub.docker.com/r/bleala/vdirsyncer
+  app:
+    image: localhost/backupster:latest
+    container_name: vdirsyncer
+    restart: unless-stopped
+    volumes:
+      - /path/to/conf/files/dir:/usr/src/app/.mnt:ro
+      - /path/to/secret/files/dir:/usr/src/app/.mnt/sec:ro

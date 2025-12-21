@@ -1,0 +1,92 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backupster
+
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: sops
+  namespace: backupster
+type: Opaque
+data:
+  secret: "$SECRET"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: conf-backupster-sops
+  namespace: backupster
+data:
+  sops.conf: |
+$SOPS_CONF
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: conf-backupster-vw
+  namespace: backupster
+data:
+  backupster.conf: |
+$BACKUPSTER_CONF_VW
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: conf-backupster-dav
+  namespace: backupster
+data:
+  backupster.conf: |
+$BACKUPSTER_CONF_DAV
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backupster
+  namespace: backupster
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: backupster
+    template:
+        metadata:
+            labels:
+                app: backupster
+        spec:
+            containers:
+              - name: busybox
+                image: busybox:latest
+                command: ['sh', '-c', 'echo "The app is running!" && tail -f /dev/null']
+                volumeMounts:
+                  - name: conf
+                    mountPath: "/usr/src/app/.mnt"
+                  - name: sops-secret
+                    mountPath: "/usr/src/app/.mnt/sec"
+                    readOnly: true
+            volumes:
+              - name: conf
+                projected:
+                  sources:
+                    - configMap:
+                        name: conf-backupster-vw
+                        items:
+                          - key: "backupster.conf"
+                            path: "backupster.yaml"
+                    - configMap:
+                        name: conf-backupster-sops
+                        items:
+                          - key: "sops.conf"
+                            path: "sops.yaml"
+              - name: sops-secret
+                secret:
+                  secretName: sops
+                  items:
+                    - key: secret
+                      path: sops
