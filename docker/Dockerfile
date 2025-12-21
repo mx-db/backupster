@@ -5,7 +5,7 @@ FROM node:22-bookworm AS build_bw
 
 WORKDIR /usr/src/bw
 
-RUN git clone --depth 1 --branch cli-${BW_VERSION} https://github.com/bitwarden/clients.git \
+RUN git clone --depth 1 --branch "cli-${BW_VERSION}" https://github.com/bitwarden/clients.git \
     && cd clients \
     && npm ci \
     && cd apps/cli \
@@ -13,8 +13,8 @@ RUN git clone --depth 1 --branch cli-${BW_VERSION} https://github.com/bitwarden/
 
 FROM python:3.12
 
-RUN curl -LO https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.${TARGETARCH}
-RUN mv sops-${SOPS_VERSION}.linux.${TARGETARCH} /usr/local/bin/sops
+RUN curl -LO "https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.${TARGETARCH}"
+RUN mv "sops-${SOPS_VERSION}.linux.${TARGETARCH}" /usr/local/bin/sops
 RUN chmod +x /usr/local/bin/sops
 
 # Install pipx
@@ -24,7 +24,7 @@ RUN pip install pipx && pipx ensurepath
 RUN pipx install vdirsyncer
 
 # Install bitwarden cli using the prebuilt binary
-COPY --from=build_bw  /usr/src/bw/clients/apps/cli/dist/oss/linux-${TARGETARCH}/bw /usr/local/bin/bw
+COPY --from=build_bw /usr/src/bw/clients/apps/cli/dist/oss/linux-${TARGETARCH}/bw /usr/local/bin/bw
 
 WORKDIR /usr/src/app
 
