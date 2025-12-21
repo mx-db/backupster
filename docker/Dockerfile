@@ -3,15 +3,21 @@ ARG SOPS_VERSION=v3.11.0
 
 FROM node:22-bookworm AS build_bw
 
+ARG TARGETARCH
+ARG BW_VERSION
+
 WORKDIR /usr/src/bw
 
-RUN git clone --depth 1 --branch "cli-${BW_VERSION}" https://github.com/bitwarden/clients.git \
+RUN git clone --depth 1 --branch "cli-$BW_VERSION" https://github.com/bitwarden/clients.git \
     && cd clients \
     && npm ci \
     && cd apps/cli \
-    && npm run "dist:oss:lin-${TARGETARCH}" ; 
+    && npm run "dist:oss:lin-$TARGETARCH" ; 
 
 FROM python:3.12
+
+ARG TARGETARCH
+ARG SOPS_VERSION
 
 RUN curl -LO "https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.${TARGETARCH}"
 RUN mv "sops-${SOPS_VERSION}.linux.${TARGETARCH}" /usr/local/bin/sops
