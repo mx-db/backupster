@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+
 jobs:
   build-and-push:
     runs-on: ${{ matrix.runner }}
