@@ -11,10 +11,10 @@ WORKDIR /usr/src/bw
 RUN echo "Building Bitwarden CLI version: ${BW_VERSION} for architecture: ${TARGETARCH}"
 
 RUN if [ ${TARGETARCH} = "amd64" ]; then \
-        npmscript="" \
+        npmscript="" ; \
     else \
-        npmscript="-${TARGETARCH}" \
-    fi \
+        npmscript="-${TARGETARCH}" ; \
+    fi ; \
     && git clone --depth 1 --branch "cli-${BW_VERSION}" https://github.com/bitwarden/clients.git \
     && cd clients \
     && npm ci \
