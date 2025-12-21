@@ -38,6 +38,9 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
 
+      - name: Debug
+        run: pwd && ls -la
+        
       - name: Build Docker Container
         id: push
         uses: docker/build-push-action@v6
