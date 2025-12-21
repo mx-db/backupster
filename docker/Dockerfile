@@ -21,7 +21,8 @@ RUN if [ ${TARGETARCH} = "amd64" ]; then \
     && cd apps/cli \
     && npm run "dist:oss:lin${npmscript}" ;
 
-RUN mkdir build_output && cp -r clients/apps/cli/dist/oss/linux${npmscript} build_output/
+RUN mkdir build_output && cp -a ./clients/apps/cli/dist/oss/linux${npmscript}/. build_output/
+RUN ls -la build_output
 
 
 FROM python:3.12
