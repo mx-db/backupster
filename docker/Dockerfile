@@ -14,7 +14,7 @@ RUN git clone --depth 1 --branch "cli-${BW_VERSION}" https://github.com/bitwarde
     && cd clients \
     && npm ci \
     && cd apps/cli \
-    && npm run "dist:oss:lin-${TARGETARCH}" ; 
+    && npm run "dist:oss:lin$((${TARGETARCH} == \"amd64\" ? \"\" : \"-${TARGETARCH}\"))" \; 
 FROM python:3.12
 
 ARG TARGETARCH
