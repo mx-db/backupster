@@ -15,7 +15,7 @@ RUN if [ ${TARGETARCH} = "amd64" ]; then \
     else \
         npmscript="-${TARGETARCH}" ; \
     fi ; \
-    && git clone --depth 1 --branch "cli-${BW_VERSION}" https://github.com/bitwarden/clients.git \
+    git clone --depth 1 --branch "cli-${BW_VERSION}" https://github.com/bitwarden/clients.git \
     && cd clients \
     && npm ci \
     && cd apps/cli \
