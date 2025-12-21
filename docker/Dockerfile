@@ -8,12 +8,11 @@ ARG BW_VERSION
 
 WORKDIR /usr/src/bw
 
-RUN git clone --depth 1 --branch "cli-$BW_VERSION" https://github.com/bitwarden/clients.git \
+RUN git clone --depth 1 --branch "cli-${BW_VERSION}" https://github.com/bitwarden/clients.git \
     && cd clients \
     && npm ci \
     && cd apps/cli \
-    && npm run "dist:oss:lin-$TARGETARCH" ; 
-
+    && npm run "dist:oss:lin-${TARGETARCH}" ; 
 FROM python:3.12
 
 ARG TARGETARCH
