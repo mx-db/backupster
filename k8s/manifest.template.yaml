@@ -11,7 +11,7 @@ metadata:
   name: sops
   namespace: backupster
 type: Opaque
-data:
+stringData:
   secret: "$SECRET"
 
 ---
@@ -61,8 +61,8 @@ spec:
                 app: backupster
         spec:
             containers:
-              - name: busybox
-                image: busybox:latest
+              - name: backupster
+                image: ghcr.io/mx-db/backupster:main
                 command: ['sh', '-c', 'echo "The app is running!" && tail -f /dev/null']
                 volumeMounts:
                   - name: conf
@@ -70,12 +70,14 @@ spec:
                   - name: sops-secret
                     mountPath: "/usr/src/app/.mnt/sec"
                     readOnly: true
+            imagePullSecrets:
+              - name: ghcr-login-secret
             volumes:
               - name: conf
                 projected:
                   sources:
                     - configMap:
-                        name: conf-backupster-vw
+                        name: conf-backupster-dav
                         items:
                           - key: "backupster.conf"
                             path: "backupster.yaml"
