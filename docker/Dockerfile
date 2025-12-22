@@ -21,8 +21,9 @@ RUN if [ ${TARGETARCH} = "amd64" ]; then \
     && cd apps/cli \
     && npm run "dist:oss:lin${npmscript}" \
     && cd \
+    && ls -la \
     && mkdir build_output \
-    && cp -a clients/apps/cli/dist/oss/linux${npmscript}/. build_output/
+    && cp -a ./clients/apps/cli/dist/oss/linux${npmscript}/. build_output/
 
 RUN ls -la build_output
 
