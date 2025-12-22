@@ -20,8 +20,7 @@ RUN if [ ${TARGETARCH} = "amd64" ]; then \
     && npm ci \
     && cd apps/cli \
     && npm run "dist:oss:lin${npmscript}" \
-    && cd \
-    && ls -la \
+    && cd /usr/src/bw \
     && mkdir build_output \
     && cp -a ./clients/apps/cli/dist/oss/linux${npmscript}/. build_output/
 
