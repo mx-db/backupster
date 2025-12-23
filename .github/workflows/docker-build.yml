@@ -50,9 +50,6 @@ jobs:
             latest=auto
             suffix=-${{ matrix.platform }}
 
-      - name: Debug
-        run: pwd && ls -la
-
       - name: Build Docker Container
         id: push
         uses: docker/build-push-action@v6

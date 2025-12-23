@@ -51,4 +51,4 @@ COPY ./src .
 
 RUN pip install -r requirements.txt
 
-CMD tail -f /dev/null
+CMD ["python3", "main.py"]
