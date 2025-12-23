@@ -42,6 +42,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
+          flavor: |
+            latest=auto
+            suffix=-${{ matrix.platform }}
 
       - name: Debug
         run: pwd && ls -la
